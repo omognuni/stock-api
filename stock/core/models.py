@@ -8,7 +8,7 @@ class Account(models.Model):
     account_number = models.IntegerField()
     account_name = models.CharField(max_length=255)
     bank_name = models.CharField(max_length=255)
-    assets = models.IntegerField()
+    principal = models.IntegerField()
  
     def __str__(self):
         return self.account_name   

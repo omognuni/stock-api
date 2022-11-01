@@ -12,7 +12,7 @@ def create_account():
         'account_number' : 1112222,
         'bank_name': 'test bank',
         'account_name': 'test account',
-        'assets': 1000000,        
+        'principal': 1000000,        
     }
 
     return Account.objects.create(user=user, **defaults)
@@ -47,11 +47,11 @@ class ModelTest(TestCase):
         account_number = 1112222
         bank_name = 'test bank'
         account_name = 'test account'
-        assets = 1000000
+        principal = 1000000
         
         account = Account.objects.create(user=user, account_number=account_number, 
                                          bank_name=bank_name,account_name=account_name,
-                                         assets=assets)
+                                         principal=principal)
         
         self.assertEqual(str(account), account_name)
         self.assertEqual(account.user, user)
