@@ -26,13 +26,18 @@ class AccountSerializer(serializers.ModelSerializer):
     
 class AccountDetailSerializer(AccountSerializer):
     total_earnings = serializers.SerializerMethodField(method_name='get_total_earnings')
-    earnings_rate = serializers.SerializerMethodField(method_name='earnings_rate')
+    earnings_rate = serializers.SerializerMethodField(method_name='get_earnings_rate')
     
     class Meta(AccountSerializer.Meta):
         fields = AccountSerializer.Meta.fields + ['principal', 'total_earnings', 'earnings_rate']
         
     def get_total_earnings(self, obj):
-        pass
+        '''총 수익금 계산'''
+        total_earnings = self.get_assets(obj) - obj.principal
+        return total_earnings
+    
     def get_earnings_rate(self, obj):
-        pass        
+        '''수익률 계산'''
+        earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
+        return earnings_rate
     
