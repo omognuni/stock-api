@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'stock',
     'core',
+    'invest',
+    'account',
 ]
 
 MIDDLEWARE = [
