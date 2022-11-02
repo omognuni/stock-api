@@ -12,13 +12,14 @@ from invest.serializers import InvestSerializer
 
 INVEST_URL = reverse('invest:invest-list')
 
-def create_account(user):
+def create_account(user, **params):
     defaults = {
-        'account_number' : 1112222,
+        'account_number' : '1112222',
         'bank_name': 'test bank',
         'account_name': 'test account',
         'principal': 1000000,        
     }
+    defaults.update(params)
 
     return Account.objects.create(user=user, **defaults)
 
@@ -69,7 +70,7 @@ class PrivateAPITest(TestCase):
                                        holding_number = holding_number)   
         
         user2 = get_user_model().objects.create_user(username='testuser2', password='testpass')
-        account2 = create_account(user=user2)
+        account2 = create_account(user=user2, account_number='33333333')
         
         Invest.objects.create(account=account2, holding=holding,
                                        holding_number = holding_number)
