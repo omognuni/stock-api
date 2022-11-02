@@ -51,6 +51,7 @@ class PrivateAPITest(TestCase):
         account = create_account(self.user)
         holding = create_holding()
         holding_number = 10
+        value = holding_number * holding.holding_price
         
         Invest.objects.create(account=account, holding=holding,
                                        holding_number = holding_number)        
@@ -60,6 +61,8 @@ class PrivateAPITest(TestCase):
         
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+        # 현재가 계산 확인
+        self.assertEqual(res.data[0]['value'], value)
         
     def test_retrieve_other_user_invest_invalid(self):
         '''다른 유저 종목 정보 없는지 확인'''
