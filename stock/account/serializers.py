@@ -16,7 +16,7 @@ class AccountSerializer(serializers.ModelSerializer):
         invests = Invest.objects.filter(account=obj.id)
     
         if invests.exists():
-            assets = 0
+            assets = obj.deposit
             for invest in invests:
                 assets += invest.holding_number * invest.holding.holding_price
             
@@ -40,8 +40,8 @@ class AccountDetailSerializer(AccountSerializer):
     
     def get_earnings_rate(self, obj):
         '''수익률 계산'''
-        if obj.principal > 0:
-            earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
         earnings_rate = 'principal must be set'
+        if obj.principal != 0:
+            earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
         return earnings_rate
     
