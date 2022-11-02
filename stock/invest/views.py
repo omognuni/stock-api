@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
 
@@ -13,6 +15,7 @@ class InvestViewSet(viewsets.ModelViewSet):
     queryset = Invest.objects.all()
 
     def get_queryset(self):
-        queryset = self.queryset.select_related('account').filter(account__user=self.request.user)
+        queryset = self.queryset.select_related('account')   \
+                    .filter(account__user=self.request.user)
         
         return queryset
