@@ -12,6 +12,7 @@ def create_account():
         'account_number' : '1112222',
         'bank_name': 'test bank',
         'account_name': 'test account',
+        'deposit': 10000,
         'principal': 1000000,        
     }
 
