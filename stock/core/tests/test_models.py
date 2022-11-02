@@ -9,7 +9,7 @@ def create_user():
 def create_account():
     user = create_user()
     defaults = {
-        'account_number' : 1112222,
+        'account_number' : '1112222',
         'bank_name': 'test bank',
         'account_name': 'test account',
         'principal': 1000000,        
@@ -44,7 +44,7 @@ class ModelTest(TestCase):
     def test_create_account_model(self):
         '''Account model 생성 테스트'''
         user = create_user()
-        account_number = 1112222
+        account_number = '1112222'
         bank_name = 'test bank'
         account_name = 'test account'
         principal = 1000000
