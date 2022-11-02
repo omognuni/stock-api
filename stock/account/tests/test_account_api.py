@@ -15,10 +15,10 @@ ACCOUNT_URL = reverse('account:account-list')
 
 
 def deposit_valid_url(account_id):
-    return reverse('account:deposit-valid', args = [account_id])
+    return reverse('account:account-deposit-valid', args = [account_id])
 
 def deposit_url(account_id):
-    return reverse('account:deposit-valid', args = [account_id])
+    return reverse('account:account-deposit', args = [account_id])
 
 def detail_url(account_id):
     return reverse('account:account-detail', args = [account_id])
@@ -133,19 +133,39 @@ class PrivateAPITest(TestCase):
         self.assertEqual(res.data, serializer.data)
       
     def test_valid_deposit_to_account(self):
-        '''입금 요청 검증'''
-        account = create_account(user=self.user)
+        '''입금 요청 검증 및 업데이트'''
+        account = create_account(user=self.user)        
         
-        payload = {
+        # phase 1
+        payload_1 = {
             'account_number': account.account_number,
             'username': self.user.username,
             'transfer_amount': 1000
         }
+        new_deposit = account.deposit + payload_1['transfer_amount']
         
         url = deposit_valid_url(account.id)
-        res = self.client.post(url, payload)
+        res = self.client.post(url, payload_1)
         
-        self.assertEqual()
+        self.assertEqual(res.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(res.data['transfer_id'], account.id)
         
-    def test_deposit_to_account(self):
-        '''입금 결과'''
+        # phase 2
+        key = f'{account.account_number}{self.user.username}{payload_1["transfer_amount"]}'
+        cache_key = hashlib.sha512(key.encode("utf-8")).hexdigest()
+        
+        payload_2 = {
+            'signature': cache_key,
+            'transfer_id': res.data['transfer_id']
+        }
+        
+        url = deposit_url(account.id)
+        res = self.client.post(url, payload_2)
+        account.refresh_from_db()
+        
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # 송금 완료 후 잔액 테스트
+        self.assertEqual(account.deposit, new_deposit)
+        self.assertTrue(res.data['status'])
+
+        
