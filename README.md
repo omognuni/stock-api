@@ -21,6 +21,11 @@ docker-compose run --rm store sh -c 'python manage.py test'
 ### ERD
 <img src='/images/ERD.png'>
 
+### CSV 로드
+- stock/core/data 에 있는 csv 파일들을 로드합니다.
+- apscheduler을 이용하여 하루에 한 번씩 업데이트 합니다.
+
+
 ### User
 - 이용자
 
