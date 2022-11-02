@@ -39,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_redis',
     'django_extensions',
+    'django_apscheduler',
     'rest_framework',
     'rest_framework.authtoken',
     'scripts',
     'stock',
-    'core',
+    'core.apps.CoreConfig',
     'invest',
     'account',
     'user',
@@ -101,6 +102,9 @@ CACHES = {
     }
 }
 
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+SCHEDULER_DEFAULT = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
