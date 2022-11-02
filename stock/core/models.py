@@ -8,6 +8,7 @@ class Account(models.Model):
     account_number = models.CharField(max_length=30, unique=True)
     account_name = models.CharField(max_length=255, null=True)
     bank_name = models.CharField(max_length=255, null=True)
+    deposit = models.IntegerField(blank=True, default=0)
     principal = models.IntegerField(blank=True, default=0)
  
     def __str__(self):
