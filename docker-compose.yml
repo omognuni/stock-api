@@ -25,6 +25,7 @@ services:
 
     depends_on:
       - stock_db
+      - stock_redis
 
   stock_db:
     image: postgres:13-alpine
@@ -35,9 +36,12 @@ services:
       - POSTGRES_USER=stock_user
       - POSTGRES_PASSWORD=stock
 
-    stock_redis:
-      image: redis:alpine
-      restart: always
+  stock_redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
 
 volumes:
   stock-db-data:
