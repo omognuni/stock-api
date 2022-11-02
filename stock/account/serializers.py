@@ -4,12 +4,12 @@ from core.models import Account, Invest
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    assets = serializers.SerializerMethodField(method_name='get_assets')
+    assets = serializers.SerializerMethodField(method_name='get_assets', read_only=True)
     
     class Meta:
         model = Account
         fields = ['id', 'account_name','bank_name','account_number', 'assets']
-        read_only_fields = fields
+        read_only_fields = ['id', 'account_name','bank_name','account_number','principal', 'assets']
         
     def get_assets(self, obj):
         '''총 자산 계산'''
@@ -21,12 +21,14 @@ class AccountSerializer(serializers.ModelSerializer):
                 assets += invest.holding_number * invest.holding.holding_price
             
             return assets
+        
         return obj.principal
+
     
     
 class AccountDetailSerializer(AccountSerializer):
-    total_earnings = serializers.SerializerMethodField(method_name='get_total_earnings')
-    earnings_rate = serializers.SerializerMethodField(method_name='get_earnings_rate')
+    total_earnings = serializers.SerializerMethodField(method_name='get_total_earnings', read_only=True)
+    earnings_rate = serializers.SerializerMethodField(method_name='get_earnings_rate', read_only=True)
     
     class Meta(AccountSerializer.Meta):
         fields = AccountSerializer.Meta.fields + ['principal', 'total_earnings', 'earnings_rate']
