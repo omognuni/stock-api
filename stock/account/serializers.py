@@ -40,6 +40,8 @@ class AccountDetailSerializer(AccountSerializer):
     
     def get_earnings_rate(self, obj):
         '''수익률 계산'''
-        earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
+        if obj.principal > 0:
+            earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
+        earnings_rate = 'principal must be set'
         return earnings_rate
     

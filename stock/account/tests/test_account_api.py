@@ -1,3 +1,4 @@
+import hashlib
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
@@ -12,12 +13,19 @@ from account.serializers import AccountSerializer, AccountDetailSerializer
 
 ACCOUNT_URL = reverse('account:account-list')
 
+
+def deposit_valid_url(account_id):
+    return reverse('account:deposit-valid', args = [account_id])
+
+def deposit_url(account_id):
+    return reverse('account:deposit-valid', args = [account_id])
+
 def detail_url(account_id):
     return reverse('account:account-detail', args = [account_id])
 
 def create_account(user, **params):
     defaults = {
-        'account_number' : 1112222,
+        'account_number' : '1112222',
         'bank_name': 'test bank',
         'account_name': 'test account',
         'principal': 1000000,        
@@ -115,7 +123,7 @@ class PrivateAPITest(TestCase):
         '''다른 유저의 account 정보 없는지 확인'''
         create_account(user=self.user)
         user2 = get_user_model().objects.create_user(username='testname2', password='testpass')
-        create_account(user=user2)
+        create_account(user=user2, account_number='333333333')
         
         res = self.client.get(ACCOUNT_URL)
         
@@ -123,5 +131,21 @@ class PrivateAPITest(TestCase):
         serializer = AccountSerializer(accounts, many=True)
         
         self.assertEqual(res.data, serializer.data)
+      
+    def test_valid_deposit_to_account(self):
+        '''입금 요청 검증'''
+        account = create_account(user=self.user)
         
+        payload = {
+            'account_number': account.account_number,
+            'username': self.user.username,
+            'transfer_amount': 1000
+        }
         
+        url = deposit_valid_url(account.id)
+        res = self.client.post(url, payload)
+        
+        self.assertEqual()
+        
+    def test_deposit_to_account(self):
+        '''입금 결과'''
