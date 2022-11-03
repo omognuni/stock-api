@@ -24,15 +24,16 @@ docker-compose run --rm store sh -c 'python manage.py test'
 ### CSV 로드
 - stock/core/data 에 있는 csv 파일들을 로드합니다.
 - apscheduler을 이용하여 하루에 한 번씩 업데이트 합니다.
+- 로드할 때 account_number를 username으로, 비밀번호는 testpass로 유저를 생성합니다.
 
 
 ### User
 - 이용자
 
-| 내용 | Method | URL |
-|------|---|---------|
-|회원가입|POST| api/user/create|
-|Token 인증|POST| api/user/token|
+| 내용       | Method | URL             |
+| ---------- | ------ | --------------- |
+| 회원가입   | POST   | api/user/create |
+| Token 인증 | POST   | api/user/token  |
 
 ### 계좌(Account)
  - 조회
@@ -49,10 +50,10 @@ docker-compose run --rm store sh -c 'python manage.py test'
    - 총 수익금 (total_earnings)
    - 수익률 (earnings_rate)
 
-| Method | URL |
-|---|------| 
-|GET| api/account/accounts|
-|PUT,PATCH| api/account/accounts/account_id|
+| Method    | URL                             |
+| --------- | ------------------------------- |
+| GET       | api/account/accounts            |
+| PUT,PATCH | api/account/accounts/account_id |
 
 ### Invest(투자 종목)
 - 조회
@@ -61,9 +62,9 @@ docker-compose run --rm store sh -c 'python manage.py test'
   - 보유 종목의 평가 금액(value)
   - 보유 종목의 ISIN (ISIN)
   
-| Method | URL |
-|--------|--------| 
-|GET| api/invest/invests|
+| Method | URL                |
+| ------ | ------------------ |
+| GET    | api/invest/invests |
 
 ### 투자금 입금
 ##### 1단계
@@ -88,9 +89,9 @@ docker-compose run --rm store sh -c 'python manage.py test'
 }
 ```
 
-| Method | URL |
-|--------|--------| 
-|POST| api/account/accounts/account_id/deposit-valid|
+| Method | URL                                           |
+| ------ | --------------------------------------------- |
+| POST   | api/account/accounts/account_id/deposit-valid |
 
 ##### 2단계
  - 요청 데이터
@@ -111,7 +112,7 @@ docker-compose run --rm store sh -c 'python manage.py test'
 }
 ```
 
-| Method | URL |
-|--------|--------| 
-|POST| api/account/accounts/account_id/deposit|
+| Method | URL                                     |
+| ------ | --------------------------------------- |
+| POST   | api/account/accounts/account_id/deposit |
   
