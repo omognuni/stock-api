@@ -6,8 +6,8 @@ class Account(models.Model):
     '''이용자 계좌 모델'''
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=30, unique=True)
-    account_name = models.CharField(max_length=255, null=True)
-    bank_name = models.CharField(max_length=255, null=True)
+    account_name = models.CharField(max_length=255, blank=True)
+    bank_name = models.CharField(max_length=255, blank=True)
     deposit = models.IntegerField(blank=True, default=0)
     principal = models.IntegerField(blank=True, default=0)
  
