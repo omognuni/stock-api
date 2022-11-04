@@ -42,6 +42,5 @@ services:
     ports:
       - "6379:6379"
 
-
 volumes:
   stock-db-data:
