@@ -11,6 +11,7 @@ def start():
     scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
     register_events(scheduler)
     
+    # 매일 00시 00분 마다 csv 업데이트
     scheduler.add_job(
         load_csv,
         trigger=CronTrigger(hour='00',minute='00'),
