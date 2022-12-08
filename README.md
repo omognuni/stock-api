@@ -43,36 +43,57 @@ docker-compose run --rm store sh -c 'python manage.py test'
 
 ### 계좌(Account)
  - 조회
-   - 계좌명 (account_name)
-   - 증권사(은행) (bank_name)
-   - 계좌번호 (account_num)
-   - 계좌 총 자산 (assets)
+  ```
+  [
+    {
+      "id": "id"
+      "account_name": "계좌명"
+      "bank_name": "은행"
+      "account_number": "계좌번호"
+      "assets": "계좌 총 자산"
+    }
+  ]
+  ```
  - 상세
-   - 계좌명 (account_name)
-   - 증권사(은행) (bank_name)
-   - 계좌번호 (account_num)
-   - 계좌 총 자산 (assets)
-   - 투자 원금 (principal)
-   - 총 수익금 (total_earnings)
-   - 수익률 (earnings_rate)
+  ```
+  {
+    "id": "id",
+    "account_name": "계좌명"
+    "bank_name": "은행"
+    "account_number": "계좌번호"
+    "assets": "계좌 총 자산"
+    "principal": "투자 원금",
+    "total_earnings": "총 수익금",
+    "earnings_rate": "수익률"
+}
 
-| Method    | URL                             |
-| --------- | ------------------------------- |
-| GET       | api/account/accounts            |
-| PUT,PATCH | api/account/accounts/account_id |
+  ```
+
+| 내용 | Method    | URL                             |
+| ---- | --------- | ------------------------------- |
+| 조회 | GET       | api/account/accounts            |
+| 상세 | GET       | api/account/accounts/account_id |
+| 변경 | PUT,PATCH | api/account/accounts/account_id |
 
 </br>
 
 ### Invest(투자 종목)
 - 조회
-  - 보유 종목명 (holding_name)
-  - 보유 종목의 자산군 (holding_type)
-  - 보유 종목의 평가 금액(value)
-  - 보유 종목의 ISIN (ISIN)
+  ```
+  [
+    {
+        "id": "id",
+        "ISIN": "ISIN",
+        "holding_name": "보유 종목명",
+        "holding_type": "보유 종목의 자산군",
+        "value": "평가 금액"
+    }
+  ]
+  ```
   
-| Method | URL                |
-| ------ | ------------------ |
-| GET    | api/invest/invests |
+| 내용 | Method | URL                |
+| ---- | ------ | ------------------ |
+| 조회 | GET    | api/invest/invests |
 
 </br>
 
@@ -83,6 +104,7 @@ docker-compose run --rm store sh -c 'python manage.py test'
     - 계좌번호
     - 고객명
     - 거래금액
+ - 
 ```
 {
     "account_number": "123123",
