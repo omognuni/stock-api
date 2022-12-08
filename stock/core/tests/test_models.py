@@ -54,7 +54,7 @@ class ModelTest(TestCase):
                                          bank_name=bank_name,account_name=account_name,
                                          principal=principal)
         
-        self.assertEqual(str(account), account_name)
+        self.assertEqual(str(account), account_number)
         self.assertEqual(account.user, user)
         
     def test_create_holding_model(self):
