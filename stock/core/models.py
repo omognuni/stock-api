@@ -12,7 +12,7 @@ class Account(models.Model):
     principal = models.IntegerField(blank=True, default=0)
  
     def __str__(self):
-        return self.account_name   
+        return self.account_number
 
 
 class Holding(models.Model):
