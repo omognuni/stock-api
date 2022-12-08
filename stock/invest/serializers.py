@@ -14,6 +14,8 @@ class InvestSerializer(serializers.ModelSerializer):
         fields = ['id', 'ISIN', 'holding_name', 'holding_type', 'value']
         read_only_fields = fields
 
+   
     def get_value(self, obj):
+        '''보유 종목 평가액'''
         value = obj.holding_number * obj.holding.holding_price
         return value
