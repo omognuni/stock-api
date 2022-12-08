@@ -1,6 +1,7 @@
 # 주식 거래 API
 
-### 설치
+## 설치
+
 - git clone 후 다음 명령어 실행
 ```
 docker-compose up --build
@@ -17,8 +18,10 @@ docker-compose run --rm store sh -c 'python manage.py test'
 
 <img src='/images/test.PNG'>
 
+</br>
 
-### ERD
+## ERD
+
 <img src='/images/ERD.png'>
 
 ### CSV 로드
@@ -26,6 +29,7 @@ docker-compose run --rm store sh -c 'python manage.py test'
 - apscheduler을 이용하여 하루에 한 번씩 업데이트 합니다.
 - 로드할 때 account_number를 username으로, 비밀번호는 testpass로 유저를 생성합니다.
 
+</br>
 
 ### User
 - 이용자
@@ -34,6 +38,8 @@ docker-compose run --rm store sh -c 'python manage.py test'
 | ---------- | ------ | --------------- |
 | 회원가입   | POST   | api/user/create |
 | Token 인증 | POST   | api/user/token  |
+
+</br>
 
 ### 계좌(Account)
  - 조회
@@ -55,6 +61,8 @@ docker-compose run --rm store sh -c 'python manage.py test'
 | GET       | api/account/accounts            |
 | PUT,PATCH | api/account/accounts/account_id |
 
+</br>
+
 ### Invest(투자 종목)
 - 조회
   - 보유 종목명 (holding_name)
@@ -66,8 +74,10 @@ docker-compose run --rm store sh -c 'python manage.py test'
 | ------ | ------------------ |
 | GET    | api/invest/invests |
 
-### 투자금 입금
-##### 1단계
+</br>
+
+## 투자금 입금
+### 1단계
  - 계좌번호, 고객명, 거래금액 순서로 hashing 하여 cache에 60초 동안 저장
  - 요청 데이터
     - 계좌번호
@@ -93,7 +103,7 @@ docker-compose run --rm store sh -c 'python manage.py test'
 | ------ | --------------------------------------------- |
 | POST   | api/account/accounts/account_id/deposit-valid |
 
-##### 2단계
+### 2단계
  - 요청 데이터
    - 1단계 요청 데이터 계좌번호, 고객명, 거래금액 순서로 hashing
    - cache에 가지고 있는 값과 비교하여 총 자산 업데이트
@@ -115,4 +125,5 @@ docker-compose run --rm store sh -c 'python manage.py test'
 | Method | URL                                     |
 | ------ | --------------------------------------- |
 | POST   | api/account/accounts/account_id/deposit |
-  
+
+</br>
