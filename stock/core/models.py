@@ -31,4 +31,7 @@ class Invest(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     holding = models.ForeignKey('Holding', on_delete=models.SET_NULL, null=True)
     holding_number = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.account.user.username
         
