@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from django.db.models import Sum, F
+
 from core.models import Account, Invest
 
 
@@ -13,14 +15,10 @@ class AccountSerializer(serializers.ModelSerializer):
         
     def get_assets(self, obj):
         '''총 자산 계산'''
-        invests = Invest.objects.filter(account=obj.id)
-    
-        if invests.exists():
-            assets = obj.deposit
-            for invest in invests:
-                assets += invest.holding_number * invest.holding.holding_price
-            
-            return assets
+        assets = Invest.objects.filter(account=obj.id). \
+            aggregate(assets=Sum(F('holding_number')*F('holding__holding_price')))
+        if assets['assets']:
+            return assets['assets']
         
         return obj.principal
 
@@ -41,7 +39,7 @@ class AccountDetailSerializer(AccountSerializer):
     def get_earnings_rate(self, obj):
         '''수익률 계산'''
         earnings_rate = 'principal must be set'
-        if obj.principal != 0:
+        if obj.principal:
             earnings_rate = self.get_total_earnings(obj) / obj.principal * 100
         return earnings_rate
     
