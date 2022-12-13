@@ -32,7 +32,7 @@ def load_csv():
                 user = get_user_model().objects.create_user(username=account_number, password='testpass', first_name=name)
             else:
                 user = get_user_model().objects.get(username=account_number)
-            account, _ = Account.objects.get_or_create(user=user, bank_name=bank_name, account_name=account_name, account_number=account_number)
+            account, _ = Account.objects.update_or_create(user=user, bank_name=bank_name, account_name=account_name, account_number=account_number)
             holding, _ = Holding.objects.update_or_create(ISIN=ISIN, defaults={'holding_price':int(holding_price)})
             Invest.objects.create(account=account, holding=holding, holding_number=int(holding_number))
         except Exception as e:
